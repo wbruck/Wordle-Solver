@@ -4,7 +4,7 @@ name: Deploy to GitHub Pages
 # One-time setup: repo Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
 on:
   push:
-    branches: [main]
+    branches: [main, claude/wordle-solver-site-d6l4ji]
   workflow_dispatch:
 
 permissions:

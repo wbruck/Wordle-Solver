@@ -33,12 +33,12 @@ python3 -m http.server 8000
 
 ## Deploy to GitHub Pages
 
-A workflow at `.github/workflows/pages.yml` deploys the site on every push to `main`. To turn it on, once:
+A workflow at `.github/workflows/pages.yml` deploys the site on every push to the repo's default branch. To turn it on, once:
 
 1. Go to the repo's **Settings → Pages**.
 2. Under **Build and deployment → Source**, choose **GitHub Actions**.
 
-The next push to `main` (or a manual run from the **Actions** tab) publishes to the live URL above. If your default branch isn't `main`, update the `branches:` line in the workflow.
+The next push (or a manual run from the **Actions** tab) publishes to the live URL above. The workflow's `branches:` list controls which branches deploy — add or change entries there if your default branch differs.
 
 ## How it works
 
