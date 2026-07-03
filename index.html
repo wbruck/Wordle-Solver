@@ -1,0 +1,59 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wordle Solver — odds for every position</title>
+<meta name="description" content="Enter the clues from your Wordle game and see the probability of each letter in every position, plus which words are still possible.">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="16" fill="%236aaa64"/><text x="50" y="74" font-size="66" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold">W</text></svg>'>
+<link rel="stylesheet" href="styles.css">
+
+<div class="app">
+  <header class="app-header">
+    <h1>Wordle&nbsp;Solver</h1>
+    <p class="tagline">Enter what you know — see the odds for every position.</p>
+  </header>
+
+  <section class="clues" aria-label="Enter your clues">
+    <div class="clue-block">
+      <h2><span class="step">1</span> Letters in the right spot
+        <span class="hint">green — type a letter into its slot</span>
+      </h2>
+      <div class="green-row" id="greenRow" role="group" aria-label="Correct-position letters"></div>
+    </div>
+
+    <div class="clue-block">
+      <h2><span class="step">2</span> Letters you've ruled on
+        <span class="hint">tap a key: once = not in word · twice = wrong spot</span>
+      </h2>
+      <div class="keyboard" id="keyboard" aria-label="On-screen keyboard for grey and yellow letters"></div>
+      <div class="legend">
+        <span class="legend-item"><i class="swatch state-absent"></i>Not in word (grey)</span>
+        <span class="legend-item"><i class="swatch state-present"></i>In word, wrong spot (yellow)</span>
+        <span class="legend-item"><i class="swatch state-correct"></i>Right spot (green)</span>
+      </div>
+      <button type="button" id="resetBtn" class="reset-btn">Reset all clues</button>
+    </div>
+  </section>
+
+  <section class="results" aria-label="Results" aria-live="polite">
+    <p class="count" id="count"></p>
+
+    <h2 class="results-h">Probability by position</h2>
+    <p class="results-sub">For each slot, how likely each letter is across the words still possible.</p>
+    <div class="positions" id="positions"></div>
+
+    <h2 class="results-h">Best letters still unknown</h2>
+    <p class="results-sub">Share of remaining words that contain each untested letter — good picks for your next guess.</p>
+    <div class="freq" id="freq"></div>
+
+    <details class="words" id="wordsDetails">
+      <summary id="wordsSummary">Possible words</summary>
+      <div class="word-list" id="wordList"></div>
+    </details>
+  </section>
+
+  <footer class="app-footer">
+    <p>Odds are computed over the official Wordle answer list (2,315 words). Your clues stay in your browser.</p>
+  </footer>
+</div>
+
+<script src="words.js"></script>
+<script src="solver.js"></script>
