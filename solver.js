@@ -7,10 +7,12 @@
  *   - greens[i]  : a letter known to sit in position i (correct spot)
  *   - "present"  : a letter known to be in the word, spot unknown (yellow)
  *   - "absent"   : a letter known not to be in the word (grey)
- * We filter the official answer list to the words still consistent with every
- * clue, then report the per-position letter odds and overall letter frequency.
+ * We filter the complete list of valid Wordle words to those still consistent
+ * with every clue, then report the per-position letter odds and overall letter
+ * frequency. Using the full accepted-guess list (not just answers) means no
+ * legal word is ever missing — which matters most in hard mode.
  *
- * ANSWERS / VALID_GUESSES come from words.js, loaded before this script.
+ * WORDS comes from words.js, loaded before this script.
  */
 
 const STORAGE_KEY = "wordle-solver-state";
@@ -35,13 +37,13 @@ function lettersInState(state) {
 
 // --- Core computation -------------------------------------------------------
 
-/** Words from ANSWERS still consistent with every clue entered so far. */
+/** Valid words still consistent with every clue entered so far. */
 function computeRemaining() {
   const present = lettersInState("present");
   const absent = lettersInState("absent");
   const greenSet = greenLetterSet();
 
-  return ANSWERS.filter((w) => {
+  return WORDS.filter((w) => {
     for (let i = 0; i < 5; i++) {
       if (greens[i] && w[i] !== greens[i]) return false;
     }

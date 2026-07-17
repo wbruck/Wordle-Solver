@@ -42,8 +42,8 @@ The next push (or a manual run from the **Actions** tab) publishes to the live U
 
 ## How it works
 
-- `words.js` bundles the official Wordle lists — **2,315** answer words and **10,657** additional accepted guesses (12,972 total) — so nothing is fetched at runtime.
-- All probabilities are computed over the **answer** list, treating every remaining answer as equally likely. A candidate survives if it matches every green position, contains every yellow letter, and contains no grey letter.
+- `words.js` bundles the **complete list of valid Wordle words — 14,855** (every word the game accepts as a guess, including NYT additions) — so nothing is fetched at runtime and no legal word is ever missing, which matters in hard mode.
+- Candidates are filtered from that full list: a word survives if it matches every green position, contains every yellow letter, and contains no grey letter. Every remaining word is treated as equally likely.
 - Per-position odds are the share of remaining words with each letter in that slot; the frequency panel is the share of remaining words containing each untested letter.
 
 ### Note on duplicate letters
