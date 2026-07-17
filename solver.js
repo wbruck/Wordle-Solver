@@ -26,6 +26,18 @@ const MAX_WORDS_SHOWN = 60;  // chips shown in the possible-words list
 let greens = [null, null, null, null, null];
 // letter -> "absent" | "present". Green letters are derived from `greens`.
 let keyStates = {};
+// Candidate pool: "all" = every valid Wordle word (WORDS); "answers" = curated
+// answers only (ANSWERS), which gives sharper odds for the actual solution.
+let pool = "all";
+
+const POOL_HINTS = {
+  all: "Every word Wordle accepts as a guess — nothing is ever missing (best for hard mode).",
+  answers: "Only the curated answer words — a smaller, likelier pool for sharper odds.",
+};
+
+function poolWords() {
+  return pool === "answers" ? ANSWERS : WORDS;
+}
 
 function greenLetterSet() {
   return new Set(greens.filter(Boolean));
@@ -43,7 +55,7 @@ function computeRemaining() {
   const absent = lettersInState("absent");
   const greenSet = greenLetterSet();
 
-  return WORDS.filter((w) => {
+  return poolWords().filter((w) => {
     for (let i = 0; i < 5; i++) {
       if (greens[i] && w[i] !== greens[i]) return false;
     }
@@ -101,6 +113,8 @@ const el = {
   wordsSummary: document.getElementById("wordsSummary"),
   wordList: document.getElementById("wordList"),
   resetBtn: document.getElementById("resetBtn"),
+  poolHint: document.getElementById("poolHint"),
+  poolBtns: Array.from(document.querySelectorAll(".pool-btn")),
 };
 
 const pct = (p) => (p * 100 < 1 ? (p * 100).toFixed(1) : Math.round(p * 100)) + "%";
@@ -262,9 +276,15 @@ function renderWords(words) {
   }
 }
 
+function renderPool() {
+  el.poolBtns.forEach((btn) => btn.classList.toggle("active", btn.dataset.pool === pool));
+  el.poolHint.textContent = POOL_HINTS[pool];
+}
+
 function render() {
   const words = computeRemaining();
   renderInputs();
+  renderPool();
   renderCount(words);
   renderPositions(words);
   renderFrequency(words);
@@ -307,6 +327,13 @@ function cycleKey(letter) {
 function reset() {
   greens = [null, null, null, null, null];
   keyStates = {};
+  save(); // pool is a preference, not a clue — reset leaves it untouched
+  render();
+}
+
+function setPool(next) {
+  if ((next !== "all" && next !== "answers") || next === pool) return;
+  pool = next;
   save();
   render();
 }
@@ -315,7 +342,7 @@ function reset() {
 
 function save() {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ greens, keyStates }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ greens, keyStates, pool }));
   } catch (_) { /* storage may be unavailable; ignore */ }
 }
 
@@ -332,6 +359,7 @@ function load() {
         if (/^[a-z]$/.test(l) && (s === "absent" || s === "present")) keyStates[l] = s;
       }
     }
+    if (data.pool === "all" || data.pool === "answers") pool = data.pool;
   } catch (_) { /* corrupt state; start fresh */ }
 }
 
@@ -341,4 +369,5 @@ buildGreenRow();
 buildKeyboard();
 load();
 el.resetBtn.addEventListener("click", reset);
+el.poolBtns.forEach((btn) => btn.addEventListener("click", () => setPool(btn.dataset.pool)));
 render();

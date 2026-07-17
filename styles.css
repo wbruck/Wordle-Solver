@@ -177,6 +177,37 @@ h2 {
 
 /* Results */
 .results { margin-top: 8px; }
+
+/* Word-pool toggle (segmented control) */
+.pool-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin: 4px 0 8px;
+}
+.pool-btn {
+  border: 1px solid var(--tile-border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+.pool-btn:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+.pool-btn:last-child { border-radius: 0 var(--radius) var(--radius) 0; border-left: none; }
+.pool-btn:hover { border-color: var(--muted); }
+.pool-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.pool-hint {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 16px;
+}
 .count {
   text-align: center;
   font-size: 18px;
