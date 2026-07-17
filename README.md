@@ -18,7 +18,9 @@ As you go, the page updates live:
 - **Best letters still unknown** — the untested letters that appear in the most remaining words, so you can pick a strong next guess.
 - **Possible words** — the full list of remaining candidates (collapsed by default).
 
-Your clues are saved in your browser (`localStorage`), so a refresh won't lose them. Hit **Reset all clues** to start a new puzzle.
+**Word pool toggle:** switch between **All valid words** (every word Wordle accepts — nothing is ever missing, best for hard mode) and **Likely answers** (the curated answer list — a smaller pool that sharpens the odds when you're hunting the actual solution).
+
+Your clues and pool choice are saved in your browser (`localStorage`), so a refresh won't lose them. Hit **Reset all clues** to start a new puzzle.
 
 ## Run it locally
 
@@ -42,8 +44,8 @@ The next push (or a manual run from the **Actions** tab) publishes to the live U
 
 ## How it works
 
-- `words.js` bundles the **complete list of valid Wordle words — 14,855** (every word the game accepts as a guess, including NYT additions) — so nothing is fetched at runtime and no legal word is ever missing, which matters in hard mode.
-- Candidates are filtered from that full list: a word survives if it matches every green position, contains every yellow letter, and contains no grey letter. Every remaining word is treated as equally likely.
+- `words.js` bundles two lists so nothing is fetched at runtime: **`WORDS`** — the complete **14,855** valid Wordle guesses (incl. NYT additions), so no legal word is ever missing in hard mode — and **`ANSWERS`** — the **2,315** curated answers for the sharper "Likely answers" pool. The toggle picks which list to filter.
+- Candidates are filtered from the active pool: a word survives if it matches every green position, contains every yellow letter, and contains no grey letter. Every remaining word is treated as equally likely.
 - Per-position odds are the share of remaining words with each letter in that slot; the frequency panel is the share of remaining words containing each untested letter.
 
 ### Note on duplicate letters

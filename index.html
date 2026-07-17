@@ -34,6 +34,12 @@
   </section>
 
   <section class="results" aria-label="Results" aria-live="polite">
+    <div class="pool-toggle" role="group" aria-label="Word pool">
+      <button type="button" class="pool-btn" data-pool="all">All valid words</button>
+      <button type="button" class="pool-btn" data-pool="answers">Likely answers</button>
+    </div>
+    <p class="pool-hint" id="poolHint"></p>
+
     <p class="count" id="count"></p>
 
     <h2 class="results-h">Probability by position</h2>
@@ -51,7 +57,7 @@
   </section>
 
   <footer class="app-footer">
-    <p>Odds are computed over the complete Wordle word list (14,855 valid words). Your clues stay in your browser.</p>
+    <p>Switch the word pool above to trade completeness for sharper odds. Your clues stay in your browser.</p>
   </footer>
 </div>
 
